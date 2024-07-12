@@ -213,7 +213,9 @@ class APIRepository {
       rethrow;
     }
   }
-  Future<List<ProductModel>> getProductAdmin(String accountID, String token) async {
+
+  Future<List<ProductModel>> getProductAdmin(
+      String accountID, String token) async {
     try {
       Response res = await api.sendRequest.get(
           '/Product/getListAdmin?accountID=$accountID',
@@ -227,6 +229,7 @@ class APIRepository {
       rethrow;
     }
   }
+
   Future<bool> addProduct(ProductModel data, String token) async {
     try {
       final body = FormData.fromMap({
