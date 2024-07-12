@@ -83,6 +83,31 @@ class APIRepository {
     }
   }
 
+  Future<String> resetPassword(
+      String numberID, String accountID, String password) async {
+    Response? copy = null;
+    try {
+      final body = FormData.fromMap(
+          {'accountID': accountID, 'newPass': password, 'numberID': numberID});
+
+      Response res = await api.sendRequest.put('/Auth/forgetPass',
+          options: Options(headers: header('no token')), data: body);
+      copy = res;
+      if (res.statusCode == 200) {
+        final message = res.data['data'];
+        print("reset password oke");
+        print(message);
+        return message;
+      } else {
+        return "login fail";
+      }
+    } catch (ex) {
+      print(copy);
+      print(ex);
+      rethrow;
+    }
+  }
+
   Future<User> current(String token) async {
     try {
       Response res = await api.sendRequest
