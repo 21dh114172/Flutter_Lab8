@@ -5,35 +5,39 @@ import 'package:app_api/mainpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import '../../data/sharepre.dart';
-
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+import './login.dart';
+class ResetPasswordScreen extends StatefulWidget {
+  const ResetPasswordScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<ResetPasswordScreen> createState() => _ResetPasswordState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController accountController = TextEditingController(text: "21dh1141722");
-  TextEditingController passwordController = TextEditingController(text: "123456Abc");
+class _ResetPasswordState extends State<ResetPasswordScreen> {
+  TextEditingController accountController =
+      TextEditingController(text: "21dh1141722");
+  TextEditingController numberIdController =
+      TextEditingController(text: "01234567890");
 
-  login() async {
+  TextEditingController passwordController =
+      TextEditingController(text: "123456Abc");
+
+  bool _passwordVisible = false;
+
+  resetpwd() async {
     //lấy token (lưu share_preference)
     String token = await APIRepository()
-        .login(accountController.text, passwordController.text);
-    var user = await APIRepository().current(token);
-    print(user);
-    // save share
-    saveUser(user);
+        .resetPassword(numberIdController.text, accountController.text, passwordController.text);
     //
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const Mainpage()));
+        context, MaterialPageRoute(builder: (context) => const LoginScreen()));
     return token;
   }
 
   @override
   void initState() {
     super.initState();
+    _passwordVisible = false;
     // autoLogin();
   }
 
@@ -49,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Reset password"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -71,49 +75,52 @@ class _LoginScreenState extends State<LoginScreen> {
                   TextFormField(
                     controller: accountController,
                     decoration: const InputDecoration(
-                      labelText: "Account",
+                      labelText: "Account ID",
                       icon: Icon(Icons.person),
                     ),
                   ),
                   const SizedBox(height: 16),
                   TextFormField(
-                    controller: passwordController,
-                    obscureText: true,
+                    controller: numberIdController,
                     decoration: const InputDecoration(
-                      labelText: "Password",
+                      labelText: "Number ID",
+                      icon: Icon(Icons.perm_identity),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: passwordController,
+                    obscureText: !_passwordVisible,
+                    decoration: InputDecoration(
                       icon: Icon(Icons.password),
+                      labelText: 'New password',
+                      hintText: 'Enter your new password',
+                      // Here is key idea
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const ResetPasswordScreen()));
-                      },
-                      child: const Text("Reset password")),
                   Row(
                     children: [
                       Expanded(
                           child: ElevatedButton(
-                        onPressed: login,
-                        child: const Text("Login"),
+                        onPressed: resetpwd,
+                        child: const Text("Reset password"),
                       )),
-                      const SizedBox(
-                        width: 16,
-                      ),
-                      Expanded(
-                          child: OutlinedButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Register()));
-                        },
-                        child: const Text("Register"),
-                      ))
                     ],
                   )
                 ],
