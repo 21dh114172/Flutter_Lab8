@@ -5,6 +5,7 @@ import 'package:app_api/mainpage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import '../../data/sharepre.dart';
+import './reset_password.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -14,9 +15,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController accountController = TextEditingController(text: "21dh1141722");
-  TextEditingController passwordController = TextEditingController(text: "123456Abc");
-
+  TextEditingController accountController =
+      TextEditingController(text: "21dh1141722");
+  TextEditingController passwordController =
+      TextEditingController(text: "123456Abc");
+  var _passwordVisible = false;
   login() async {
     //lấy token (lưu share_preference)
     String token = await APIRepository()
@@ -34,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    _passwordVisible = false;
     // autoLogin();
   }
 
@@ -78,10 +82,27 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: passwordController,
-                    obscureText: true,
-                    decoration: const InputDecoration(
-                      labelText: "Password",
+                    obscureText: !_passwordVisible,
+                    decoration: InputDecoration(
                       icon: Icon(Icons.password),
+                      labelText: 'Password',
+                      hintText: 'Enter your password',
+                      // Here is key idea
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          _passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: Theme.of(context).primaryColorDark,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(() {
+                            _passwordVisible = !_passwordVisible;
+                          });
+                        },
+                      ),
                     ),
                   ),
                   const SizedBox(height: 10),
