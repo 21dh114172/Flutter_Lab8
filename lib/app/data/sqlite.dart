@@ -57,7 +57,12 @@ class DatabaseHelper {
     await db.query('product', where: 'id = ?', whereArgs: [id]);
     return Cart.fromMap(maps[0]);
   }
-
+  Future<Cart> isProductExist(int id) async {
+    final db = await _databaseService.database;
+    final List<Map<String, dynamic>> maps =
+    await db.query('Cart', where: 'productID = ?', whereArgs: [id]);
+    return Cart.fromMap(maps[0]);
+  }
 
    Future<void> minus(Cart product) async {
     final db = await _databaseService.database;

@@ -28,13 +28,18 @@ class _HomeBuilderState extends State<HomeBuilder> {
   }
 
   Future<void> _onSave(ProductModel pro) async {
-    _databaseService.insertProduct(Cart(
-        productID: pro.id,
-        name: pro.name,
-        des: pro.description,
-        price: pro.price,
-        img: pro.imageUrl,
-        count: 1));
+    try {
+      var productCart = await _databaseService.isProductExist(pro.id);
+      await _databaseService.add(productCart);
+    } catch (error) {
+      _databaseService.insertProduct(Cart(
+          productID: pro.id,
+          name: pro.name,
+          des: pro.description,
+          price: pro.price,
+          img: pro.imageUrl,
+          count: 1));
+    }
     setState(() {});
   }
 

@@ -58,6 +58,7 @@ class _CartScreenState extends State<CartScreen> {
                   await APIRepository()
                       .addBill(temp, pref.getString('token').toString());
                   _databaseHelper.clear();
+                  setState(() {});
                 },
                 child: Text("Payment")))
       ],
