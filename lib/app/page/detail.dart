@@ -38,14 +38,18 @@ class _DetailState extends State<Detail> {
       fontWeight: FontWeight.bold,
       color: Colors.amber,
     );
+    print(user.imageURL);
+    var imageURL = user.imageURL ?? "https://i.imgur.com/WAvsqj5.png";
     return Scaffold(
       body: SingleChildScrollView(
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Image(
-              image: NetworkImage(user.imageURL!),
-              height: 200,
-              width: 200,
+            Image.network(
+              imageURL,
+              errorBuilder: (BuildContext context, Object exception,
+                    StackTrace? stackTrace) {
+                  return Image.asset('assets/images/default_profile.png');
+                }
             ),
             Text("NumberID: ${user.idNumber}", style: mystyle),
             Text("Fullname: ${user.fullName}", style: mystyle),
