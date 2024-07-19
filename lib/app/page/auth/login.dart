@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("Đăng nhập"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -69,13 +69,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Icon(Icons.image),
                   ),
                   const Text(
-                    "LOGIN INFORMATION",
+                    "ĐĂNG NHẬP",
                     style: TextStyle(fontSize: 24, color: Colors.blue),
                   ),
                   TextFormField(
                     controller: accountController,
                     decoration: const InputDecoration(
-                      labelText: "Account",
+                      labelText: "Tài khoản",
                       icon: Icon(Icons.person),
                     ),
                   ),
@@ -85,9 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: !_passwordVisible,
                     decoration: InputDecoration(
                       icon: Icon(Icons.password),
-                      labelText: 'Password',
-                      hintText: 'Enter your password',
-                      // Here is key idea
+                      labelText: 'Mật khẩu',
+                      hintText: 'Nhập mật khẩu',
                       suffixIcon: IconButton(
                         icon: Icon(
                           // Based on passwordVisible state choose the icon
@@ -114,13 +113,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 builder: (context) =>
                                     const ResetPasswordScreen()));
                       },
-                      child: const Text("Reset password")),
+                      child: const Text("Quên mật khẩu")),
                   Row(
                     children: [
                       Expanded(
-                          child: ElevatedButton(
+                          child: OutlinedButton(
                         onPressed: login,
-                        child: const Text("Login"),
+                        child: const Text("ĐĂNG NHẬP"),
                       )),
                       const SizedBox(
                         width: 16,
@@ -133,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               MaterialPageRoute(
                                   builder: (context) => const Register()));
                         },
-                        child: const Text("Register"),
+                        child: const Text("ĐĂNG KÝ"),
                       ))
                     ],
                   )

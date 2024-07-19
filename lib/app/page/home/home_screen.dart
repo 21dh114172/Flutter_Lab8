@@ -57,7 +57,7 @@ class _HomeBuilderState extends State<HomeBuilder> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Column(
             children: [
-              Text("Main page"),
+              //Text("Main page"),
               Expanded(
                 child: ListView.builder(
                   itemCount: snapshot.data!.length,

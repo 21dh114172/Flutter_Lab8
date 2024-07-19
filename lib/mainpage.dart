@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:app_api/app/model/user.dart';
+import 'package:app_api/app/page/auth/profile.dart';
 import 'package:app_api/app/page/cart/cart_screen.dart';
 import 'package:app_api/app/page/category/category_list.dart';
 import 'package:app_api/app/page/detail.dart';
@@ -28,7 +29,7 @@ class _MainpageState extends State<Mainpage> {
     String strUser = pref.getString('user')!;
 
     user = User.fromJson(jsonDecode(strUser));
-    setState(() { });
+    setState(() {});
   }
 
   @override
@@ -44,12 +45,12 @@ class _MainpageState extends State<Mainpage> {
   }
 
   _loadWidget(int index) {
-    var nameWidgets = "Home";
+    var nameWidgets = "Trang chủ";
     switch (index) {
       case 0:
-       {
-        return HomeBuilder();
-       }
+        {
+          return HomeBuilder();
+        }
       case 1:
         {
           return HistoryScreen();
@@ -63,7 +64,7 @@ class _MainpageState extends State<Mainpage> {
           return const Detail();
         }
       default:
-        nameWidgets = "None";
+        nameWidgets = "";
         break;
     }
     return DefaultWidget(title: nameWidgets);
@@ -73,37 +74,48 @@ class _MainpageState extends State<Mainpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("HL Mobile"),
+        title: const Text("HUFLIT"),
       ),
       drawer: Drawer(
         child: ListView(
           // Important: Remove any padding from the ListView.
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 243, 152, 33),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  user.imageURL!.length < 5
-                      ? const SizedBox()
-                      : CircleAvatar(
-                          radius: 40,
-                          backgroundImage: NetworkImage(
-                            user.imageURL!,
-                          )),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(user.fullName!),
-                ],
+            GestureDetector(
+              onTap: () {
+                // Define the action you want to perform when the image is clicked
+                print('Profile image clicked');
+                // For example, you might want to navigate to a profile page or show a dialog
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Profile()),
+                );
+              },
+              child: DrawerHeader(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 243, 152, 33),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    user.imageURL!.length < 5
+                        ? const SizedBox()
+                        : CircleAvatar(
+                            radius: 40,
+                            backgroundImage: NetworkImage(
+                              user.imageURL!,
+                            )),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(user.fullName!),
+                  ],
+                ),
               ),
             ),
             ListTile(
               leading: const Icon(Icons.home),
-              title: const Text('Home'),
+              title: const Text('Trang chủ'),
               onTap: () {
                 Navigator.pop(context);
                 _selectedIndex = 0;
@@ -112,7 +124,7 @@ class _MainpageState extends State<Mainpage> {
             ),
             ListTile(
               leading: const Icon(Icons.contact_mail),
-              title: const Text('History'),
+              title: const Text('Lịch sử'),
               onTap: () {
                 Navigator.pop(context);
                 _selectedIndex = 1;
@@ -121,7 +133,7 @@ class _MainpageState extends State<Mainpage> {
             ),
             ListTile(
               leading: const Icon(Icons.contact_mail),
-              title: const Text('Cart'),
+              title: const Text('Giỏ hàng'),
               onTap: () {
                 Navigator.pop(context);
                 _selectedIndex = 2;
@@ -130,34 +142,38 @@ class _MainpageState extends State<Mainpage> {
             ),
             ListTile(
               leading: const Icon(Icons.pages),
-              title: const Text('Category'),
+              title: const Text('Danh mục'),
               onTap: () {
                 Navigator.pop(context);
                 _selectedIndex = 0;
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const CategoryList()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CategoryList()));
               },
             ),
             ListTile(
               leading: const Icon(Icons.pages),
-              title: const Text('Product'),
+              title: const Text('Sản phẩm'),
               onTap: () {
                 Navigator.pop(context);
                 _selectedIndex = 0;
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const ProductList()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ProductList()));
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.pages),
-              title: const Text('Page3'),
-              onTap: () {
-                Navigator.pop(context);
-                _selectedIndex = 0;
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Page3()));
-              },
-            ),
+            // ListTile(
+            //   leading: const Icon(Icons.pages),
+            //   title: const Text('Page3'),
+            //   onTap: () {
+            //     Navigator.pop(context);
+            //     _selectedIndex = 0;
+            //     Navigator.push(context,
+            //         MaterialPageRoute(builder: (context) => const Page3()));
+            //   },
+            // ),
             const Divider(
               color: Colors.black,
             ),
@@ -165,7 +181,7 @@ class _MainpageState extends State<Mainpage> {
                 ? const SizedBox()
                 : ListTile(
                     leading: const Icon(Icons.exit_to_app),
-                    title: const Text('Logout'),
+                    title: const Text('Đăng xuất'),
                     onTap: () {
                       logOut(context);
                     },
@@ -177,19 +193,19 @@ class _MainpageState extends State<Mainpage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'TRANG CHỦ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history),
-            label: 'History',
+            label: 'LỊCH SỬ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.shop),
-            label: 'Cart',
+            label: 'GIỎ HÀNG',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
-            label: 'User',
+            label: 'TÀI KHOẢN',
           ),
         ],
         currentIndex: _selectedIndex,

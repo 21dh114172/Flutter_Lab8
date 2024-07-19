@@ -36,7 +36,7 @@ class _DetailState extends State<Detail> {
     TextStyle mystyle = const TextStyle(
       fontSize: 24,
       fontWeight: FontWeight.bold,
-      color: Colors.amber,
+      color: Color.fromARGB(255, 66, 66, 66),
     );
     print(user.imageURL);
     var imageURL = user.imageURL ?? "https://i.imgur.com/WAvsqj5.png";
@@ -44,13 +44,13 @@ class _DetailState extends State<Detail> {
       body: SingleChildScrollView(
         child: Center(
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Image.network(
-              imageURL,
-              errorBuilder: (BuildContext context, Object exception,
-                    StackTrace? stackTrace) {
-                  return Image.asset('assets/images/default_profile.png');
-                }
-            ),
+            user.imageURL!.length < 5
+                ? const SizedBox()
+                : CircleAvatar(
+                    radius: 40,
+                    backgroundImage: NetworkImage(
+                      user.imageURL!,
+                    )),
             Text("NumberID: ${user.idNumber}", style: mystyle),
             Text("Fullname: ${user.fullName}", style: mystyle),
             Text("Phone Number: ${user.phoneNumber}", style: mystyle),
